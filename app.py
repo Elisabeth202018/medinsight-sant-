@@ -1,3 +1,4 @@
+
 """
 app.py — MedInsight Health Data Platform
 =========================================
@@ -50,170 +51,275 @@ def invalidate_cache():
 
 PLOTLY_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(14,26,36,0.5)",
-    font=dict(family="Outfit, sans-serif", color="#a8c0d0", size=11),
+    plot_bgcolor="rgba(240,248,255,0.6)",
+    font=dict(family="Outfit, sans-serif", color="#1a3a5c", size=11),
     margin=dict(t=44, b=16, l=16, r=16),
-    xaxis=dict(gridcolor="rgba(0,200,150,0.07)", zerolinecolor="rgba(0,200,150,0.1)"),
-    yaxis=dict(gridcolor="rgba(0,200,150,0.07)", zerolinecolor="rgba(0,200,150,0.1)"),
-    colorway=["#00c896", "#c8a84b", "#a8d8ea", "#ff5a5a", "#f0a500", "#7eb8f7"],
+    xaxis=dict(gridcolor="rgba(0,120,212,0.1)", zerolinecolor="rgba(0,120,212,0.15)"),
+    yaxis=dict(gridcolor="rgba(0,120,212,0.1)", zerolinecolor="rgba(0,120,212,0.15)"),
+    colorway=["#0078d4", "#00b4a0", "#e63946", "#f4a100", "#7b2d8b", "#00c49a"],
 )
-EMERALD_SEQ = ["#004d38", "#006b50", "#009070", "#00c896", "#40e0b0", "#80f0cc"]
-GOLD_SEQ    = ["#5a3c00", "#8a5e00", "#b88000", "#c8a84b", "#e8c97a", "#f8e8a8"]
+BLUE_SEQ    = ["#003f88", "#0055b3", "#0078d4", "#2196f3", "#64b5f6", "#bbdefb"]
+TEAL_SEQ    = ["#004d45", "#007a6e", "#00b4a0", "#00c9b1", "#4dd9c8", "#a8f0e8"]
 
-# ── CSS complet ───────────────────────────────────────────────────────────────
+# ── CSS complet — Vivid Medical Light Theme ───────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg-deep:    #080d12;
-    --bg-card:    #0e1a24;
-    --bg-glass:   rgba(14,26,36,0.72);
-    --emerald:    #00c896;
-    --emerald-dim:#007a5c;
-    --gold:       #c8a84b;
-    --gold-light: #e8c97a;
-    --ice:        #a8d8ea;
-    --danger:     #ff5a5a;
-    --warn:       #f0a500;
-    --text-main:  #e8edf2;
-    --text-muted: #6b8099;
-    --border:     rgba(0,200,150,0.14);
-    --glow:       rgba(0,200,150,0.22);
+    --bg:         #f0f6ff;
+    --bg-card:    #ffffff;
+    --bg-soft:    #e8f2ff;
+    --blue:       #0078d4;
+    --blue-dark:  #005a9e;
+    --blue-light: #e6f2ff;
+    --teal:       #00b4a0;
+    --teal-dark:  #008778;
+    --teal-light: #e0faf7;
+    --red:        #e63946;
+    --red-light:  #fde8ea;
+    --amber:      #f4a100;
+    --amber-light:#fff4d6;
+    --text:       #0d2137;
+    --text-muted: #4a6580;
+    --border:     #c8dff5;
+    --shadow:     rgba(0,120,212,0.10);
 }
+
 *, *::before, *::after { box-sizing: border-box; }
+
 html, body, [class*="css"] {
     font-family: 'Outfit', sans-serif;
-    background-color: var(--bg-deep) !important;
-    color: var(--text-main) !important;
+    background-color: var(--bg) !important;
+    color: var(--text) !important;
 }
+
+/* === Fond principal avec motif subtil === */
 .stApp {
-    background: var(--bg-deep) !important;
+    background: var(--bg) !important;
     background-image:
-        radial-gradient(ellipse 60% 40% at 10% 15%, rgba(0,200,150,0.06) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 60% at 90% 85%, rgba(200,168,75,0.05) 0%, transparent 70%);
+        radial-gradient(ellipse 70% 50% at 5% 10%,  rgba(0,120,212,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 95% 90%,  rgba(0,180,160,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 50%,  rgba(255,255,255,0.5) 0%, transparent 80%);
 }
-.stApp::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-        linear-gradient(rgba(0,200,150,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,200,150,0.025) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none; z-index: 0;
-}
+
+/* === Sidebar === */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #060c11 0%, #0a1520 60%, #060c11 100%) !important;
-    border-right: 1px solid var(--border) !important;
+    background: linear-gradient(160deg, #0055b3 0%, #0078d4 45%, #00a896 100%) !important;
+    border-right: none !important;
+    box-shadow: 4px 0 20px rgba(0,120,212,0.20) !important;
 }
-[data-testid="stSidebar"] * { color: var(--text-main) !important; }
-[data-testid="stSidebar"] hr { border-color: var(--border); }
-.sidebar-logo { text-align:center; padding:1.5rem 0 1rem; }
-.sidebar-logo .cross { font-size:2.4rem; filter:drop-shadow(0 0 14px var(--emerald)); }
+[data-testid="stSidebar"] * { color: #ffffff !important; }
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.25); }
+
+.sidebar-logo { text-align:center; padding:1.8rem 0 1rem; }
+.sidebar-logo .cross {
+    font-size:2.8rem;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));
+}
 .sidebar-logo .brand {
-    font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; letter-spacing:1px;
-    background:linear-gradient(90deg,var(--emerald),var(--gold-light));
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.8rem; font-weight:700; letter-spacing:1px; color:#ffffff !important;
 }
 .sidebar-logo .tagline {
-    font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--text-muted) !important;
+    font-size:0.68rem; letter-spacing:3px; text-transform:uppercase;
+    color:rgba(255,255,255,0.7) !important;
 }
 .nav-stat {
-    background:rgba(0,200,150,0.06); border:1px solid var(--border);
+    background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25);
     border-radius:12px; padding:0.9rem 1.1rem; margin:0.3rem 0; font-size:0.82rem;
 }
-.nav-stat strong { color:var(--emerald) !important; }
+.nav-stat strong { color:#ffffff !important; }
+
+/* === Hero === */
 .hero {
     position:relative; border-radius:20px; overflow:hidden;
     padding:2.8rem 3.2rem; margin-bottom:2rem;
-    background:linear-gradient(120deg,#0a1f18 0%,#0d1a2e 60%,#0a1520 100%);
-    border:1px solid var(--border);
-    box-shadow:0 0 60px rgba(0,200,150,0.07),0 20px 40px rgba(0,0,0,0.4);
+    background: linear-gradient(125deg, #0055b3 0%, #0078d4 40%, #00a896 100%);
+    box-shadow: 0 8px 32px rgba(0,120,212,0.30), 0 2px 8px rgba(0,0,0,0.08);
 }
 .hero::before {
-    content:''; position:absolute; top:-60px; right:-60px; width:320px; height:320px;
-    background:radial-gradient(circle,rgba(0,200,150,0.12) 0%,transparent 70%); pointer-events:none;
+    content:''; position:absolute; top:-80px; right:-80px;
+    width:340px; height:340px;
+    background:radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
+    pointer-events:none;
 }
 .hero::after {
-    content:''; position:absolute; bottom:-40px; left:30%; width:200px; height:200px;
-    background:radial-gradient(circle,rgba(200,168,75,0.07) 0%,transparent 70%); pointer-events:none;
+    content:''; position:absolute; bottom:-50px; left:20%;
+    width:260px; height:260px;
+    background:radial-gradient(circle, rgba(0,200,180,0.15) 0%, transparent 65%);
+    pointer-events:none;
 }
-.hero-eyebrow { font-size:0.7rem; letter-spacing:4px; text-transform:uppercase; color:var(--emerald); margin-bottom:0.6rem; font-weight:500; }
-.hero h1 { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:700; color:var(--text-main); margin:0 0 0.5rem; line-height:1.1; }
-.hero h1 span { color:var(--emerald); }
-.hero p { font-size:1rem; color:var(--text-muted); margin:0; font-weight:300; max-width:520px; }
+.hero-eyebrow {
+    font-size:0.7rem; letter-spacing:4px; text-transform:uppercase;
+    color:rgba(255,255,255,0.8); margin-bottom:0.6rem; font-weight:500;
+}
+.hero h1 {
+    font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:700;
+    color:#ffffff; margin:0 0 0.5rem; line-height:1.1;
+}
+.hero h1 span { color:#a8f0e8; }
+.hero p { font-size:1rem; color:rgba(255,255,255,0.8); margin:0; font-weight:300; max-width:520px; }
 .hero-badge {
     position:absolute; top:2rem; right:2.5rem;
-    background:rgba(0,200,150,0.1); border:1px solid var(--emerald-dim); border-radius:50px;
-    padding:0.35rem 1rem; font-size:0.73rem; color:var(--emerald); letter-spacing:1.5px; text-transform:uppercase;
+    background:rgba(255,255,255,0.20); border:1px solid rgba(255,255,255,0.40);
+    border-radius:50px; padding:0.35rem 1rem;
+    font-size:0.73rem; color:#ffffff; letter-spacing:1.5px; text-transform:uppercase;
 }
+
+/* === KPI Cards === */
 .kpi-card {
-    background:var(--bg-card); border:1px solid var(--border); border-radius:16px;
-    padding:1.4rem 1.6rem; position:relative; overflow:hidden; transition:border-color 0.3s,box-shadow 0.3s;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.4rem 1.6rem;
+    position: relative; overflow: hidden;
+    box-shadow: 0 2px 12px var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-.kpi-card:hover { border-color:var(--emerald-dim); box-shadow:0 0 24px var(--glow); }
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,120,212,0.18);
+}
 .kpi-card::after {
-    content:''; position:absolute; top:0; left:0; right:0; height:2px;
-    background:linear-gradient(90deg,var(--emerald),transparent);
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--blue), var(--teal));
 }
-.kpi-icon { font-size:1.5rem; margin-bottom:0.5rem; }
-.kpi-val { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:700; color:var(--emerald); line-height:1; }
-.kpi-lbl { font-size:0.73rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-top:0.3rem; }
+.kpi-icon { font-size:1.6rem; margin-bottom:0.5rem; }
+.kpi-val {
+    font-family:'Cormorant Garamond',serif; font-size:2.4rem;
+    font-weight:700; color:var(--blue); line-height:1;
+}
+.kpi-lbl {
+    font-size:0.73rem; color:var(--text-muted);
+    text-transform:uppercase; letter-spacing:0.8px; margin-top:0.3rem;
+}
+
+/* === Section titles === */
 .sec-title {
-    font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:600; color:var(--text-main);
+    font-family:'Cormorant Garamond',serif; font-size:1.5rem;
+    font-weight:700; color:var(--blue-dark);
     margin:2rem 0 1rem; display:flex; align-items:center; gap:0.6rem;
 }
-.sec-title::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); margin-left:0.5rem; }
-.sec-dot { width:8px; height:8px; background:var(--emerald); border-radius:50%; box-shadow:0 0 8px var(--emerald); display:inline-block; }
-.glass-card {
-    background:var(--bg-glass); backdrop-filter:blur(20px);
-    border:1px solid var(--border); border-radius:18px; padding:1.8rem;
-    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+.sec-title::after {
+    content:''; flex:1; height:2px;
+    background:linear-gradient(90deg, var(--blue), var(--teal), transparent);
+    margin-left:0.5rem; border-radius:2px;
 }
-.alert-danger { background:rgba(255,90,90,0.09); border:1px solid rgba(255,90,90,0.3); border-left:4px solid var(--danger); border-radius:10px; padding:0.85rem 1.1rem; color:#ffaaaa; margin:0.4rem 0; font-size:0.88rem; }
-.alert-warn   { background:rgba(240,165,0,0.09);  border:1px solid rgba(240,165,0,0.3);  border-left:4px solid var(--warn);   border-radius:10px; padding:0.85rem 1.1rem; color:#ffd580; margin:0.4rem 0; font-size:0.88rem; }
-.alert-ok     { background:rgba(0,200,150,0.08);  border:1px solid rgba(0,200,150,0.25); border-left:4px solid var(--emerald); border-radius:10px; padding:0.85rem 1.1rem; color:#80ffcc; margin:0.4rem 0; font-size:0.88rem; }
-.risk-badge   { display:inline-block; padding:0.3rem 1rem; border-radius:50px; font-weight:600; font-size:0.85rem; letter-spacing:0.5px; }
-.risk-low     { background:rgba(0,200,150,0.15);  color:var(--emerald); border:1px solid var(--emerald-dim); }
-.risk-medium  { background:rgba(240,165,0,0.15);  color:var(--warn);    border:1px solid rgba(240,165,0,0.4); }
-.risk-high    { background:rgba(255,90,90,0.15);  color:var(--danger);  border:1px solid rgba(255,90,90,0.4); }
+.sec-dot {
+    width:10px; height:10px; background:var(--blue);
+    border-radius:50%; display:inline-block;
+    box-shadow: 0 0 0 3px rgba(0,120,212,0.2);
+}
+
+/* === Glass / Info cards === */
+.glass-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding:1.6rem;
+    box-shadow: 0 2px 12px var(--shadow);
+}
+
+/* === Alertes === */
+.alert-danger {
+    background: var(--red-light); border:1px solid rgba(230,57,70,0.3);
+    border-left:4px solid var(--red); border-radius:10px;
+    padding:0.85rem 1.1rem; color:#b71c2a; margin:0.4rem 0; font-size:0.88rem; font-weight:500;
+}
+.alert-warn {
+    background: var(--amber-light); border:1px solid rgba(244,161,0,0.3);
+    border-left:4px solid var(--amber); border-radius:10px;
+    padding:0.85rem 1.1rem; color:#7a5000; margin:0.4rem 0; font-size:0.88rem; font-weight:500;
+}
+.alert-ok {
+    background: var(--teal-light); border:1px solid rgba(0,180,160,0.3);
+    border-left:4px solid var(--teal); border-radius:10px;
+    padding:0.85rem 1.1rem; color:#00574f; margin:0.4rem 0; font-size:0.88rem; font-weight:500;
+}
+
+/* === Badges de risque === */
+.risk-badge { display:inline-block; padding:0.3rem 1rem; border-radius:50px; font-weight:600; font-size:0.85rem; }
+.risk-low    { background:#e0faf7; color:var(--teal-dark);  border:1px solid var(--teal); }
+.risk-medium { background:#fff4d6; color:#7a5000;           border:1px solid var(--amber); }
+.risk-high   { background:#fde8ea; color:#b71c2a;           border:1px solid var(--red); }
+
+/* === Formulaires === */
 div[data-testid="stForm"] {
     background:var(--bg-card) !important; border:1px solid var(--border) !important;
-    border-radius:18px !important; padding:2rem !important; box-shadow:0 8px 32px rgba(0,0,0,0.3) !important;
+    border-radius:18px !important; padding:2rem !important;
+    box-shadow:0 4px 20px var(--shadow) !important;
 }
 .stTextInput>div>div>input,
 .stNumberInput>div>div>input,
 .stSelectbox>div>div,
 .stTextArea textarea {
-    background:rgba(8,13,18,0.7) !important; border:1px solid var(--border) !important;
-    border-radius:10px !important; color:var(--text-main) !important; font-family:'Outfit',sans-serif !important;
+    background:#f7faff !important; border:1.5px solid var(--border) !important;
+    border-radius:10px !important; color:var(--text) !important;
+    font-family:'Outfit',sans-serif !important;
 }
 .stTextInput>div>div>input:focus,
 .stNumberInput>div>div>input:focus {
-    border-color:var(--emerald) !important; box-shadow:0 0 0 3px rgba(0,200,150,0.15) !important;
+    border-color:var(--blue) !important;
+    box-shadow:0 0 0 3px rgba(0,120,212,0.15) !important;
 }
-label { color:var(--text-muted) !important; font-size:0.83rem !important; }
+label { color:var(--text-muted) !important; font-size:0.83rem !important; font-weight:500 !important; }
+
+/* === Boutons === */
 .stButton>button {
-    background:linear-gradient(135deg,var(--emerald-dim),#004d38) !important; color:#e0fff5 !important;
-    border:1px solid var(--emerald-dim) !important; border-radius:10px !important;
+    background:linear-gradient(135deg, var(--blue), var(--blue-dark)) !important;
+    color:#ffffff !important; border:none !important; border-radius:10px !important;
     font-family:'Outfit',sans-serif !important; font-weight:600 !important;
-    transition:all 0.25s !important; box-shadow:0 4px 16px rgba(0,200,150,0.18) !important;
+    box-shadow:0 4px 14px rgba(0,120,212,0.35) !important; transition:all 0.25s !important;
 }
-.stButton>button:hover { background:linear-gradient(135deg,var(--emerald),var(--emerald-dim)) !important; box-shadow:0 6px 24px rgba(0,200,150,0.35) !important; transform:translateY(-1px) !important; }
-.stDownloadButton>button { background:transparent !important; color:var(--gold-light) !important; border:1px solid rgba(200,168,75,0.4) !important; box-shadow:none !important; }
-.stDownloadButton>button:hover { background:rgba(200,168,75,0.1) !important; box-shadow:0 4px 14px rgba(200,168,75,0.2) !important; }
-.stTabs [data-baseweb="tab-list"] { background:var(--bg-card); border-radius:12px; padding:4px; gap:4px; border:1px solid var(--border); }
-.stTabs [data-baseweb="tab"] { border-radius:8px; color:var(--text-muted) !important; font-family:'Outfit',sans-serif; font-size:0.85rem; padding:0.4rem 1rem; }
-.stTabs [aria-selected="true"] { background:rgba(0,200,150,0.12) !important; color:var(--emerald) !important; border-bottom:none !important; }
+.stButton>button:hover {
+    background:linear-gradient(135deg, #0085e8, var(--blue)) !important;
+    box-shadow:0 6px 22px rgba(0,120,212,0.45) !important;
+    transform:translateY(-2px) !important;
+}
+.stDownloadButton>button {
+    background:var(--teal-light) !important; color:var(--teal-dark) !important;
+    border:1.5px solid var(--teal) !important; box-shadow:none !important;
+}
+.stDownloadButton>button:hover {
+    background:var(--teal) !important; color:#fff !important;
+    box-shadow:0 4px 14px rgba(0,180,160,0.30) !important;
+}
+
+/* === Onglets === */
+.stTabs [data-baseweb="tab-list"] {
+    background:var(--blue-light); border-radius:12px; padding:4px; gap:4px; border:1px solid var(--border);
+}
+.stTabs [data-baseweb="tab"] {
+    border-radius:8px; color:var(--text-muted) !important;
+    font-family:'Outfit',sans-serif; font-size:0.85rem; padding:0.4rem 1rem;
+}
+.stTabs [aria-selected="true"] {
+    background:var(--blue) !important; color:#ffffff !important; border-bottom:none !important;
+}
+
+/* === Sidebar radio === */
 [data-testid="stSidebar"] .stRadio>div { gap:0.3rem !important; }
-[data-testid="stSidebar"] .stRadio label { padding:0.55rem 0.8rem !important; border-radius:8px !important; transition:background 0.2s !important; font-size:0.88rem !important; }
-[data-testid="stSidebar"] .stRadio label:hover { background:rgba(0,200,150,0.08) !important; }
-.footer { text-align:center; color:var(--text-muted); font-size:0.73rem; margin-top:3rem; padding:1.2rem 0; border-top:1px solid var(--border); letter-spacing:0.5px; }
-.footer span { color:var(--emerald); }
+[data-testid="stSidebar"] .stRadio label {
+    padding:0.55rem 0.8rem !important; border-radius:8px !important;
+    transition:background 0.2s !important; font-size:0.88rem !important;
+}
+[data-testid="stSidebar"] .stRadio label:hover {
+    background:rgba(255,255,255,0.15) !important;
+}
+
+/* === Footer === */
+.footer {
+    text-align:center; color:var(--text-muted); font-size:0.73rem;
+    margin-top:3rem; padding:1.2rem 0;
+    border-top:2px solid var(--border); letter-spacing:0.5px;
+}
+.footer span { color:var(--blue); font-weight:600; }
+
+/* === Scrollbar === */
 ::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background:var(--bg-deep); }
+::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
-::-webkit-scrollbar-thumb:hover { background:var(--emerald-dim); }
+::-webkit-scrollbar-thumb:hover { background:var(--blue); }
 </style>
 """, unsafe_allow_html=True)
 
@@ -398,10 +504,8 @@ elif page == "➕  Nouveau patient":
         st.markdown("---")
         st.markdown("#### 📏 Anthropométrie")
         c1, c2, c3 = st.columns(3)
-        with c1: 
-            poids  = st.number_input("Poids (kg)", 10.0, 300.0, 70.0, 0.1)
-        with c2: 
-            taille = st.number_input("Taille (cm)", 50.0, 250.0, 170.0, 0.5)
+        with c1: poids  = st.number_input("Poids (kg)", 10.0, 300.0, 70.0, 0.1)
+        with c2: taille = st.number_input("Taille (cm)", 50.0, 250.0, 170.0, 0.5)
         imc_preview = engine.compute_imc(poids, taille)
         with c3:
             st.markdown(f"<br><div class='alert-ok' style='margin-top:0.5rem'>IMC : <b>{imc_preview}</b> — {engine.imc_category(imc_preview)}</div>", unsafe_allow_html=True)
@@ -409,16 +513,11 @@ elif page == "➕  Nouveau patient":
         st.markdown("---")
         st.markdown("#### 🩸 Paramètres vitaux")
         c1, c2, c3, c4, c5 = st.columns(5)
-    with c1: 
-        t_sys = st.number_input("Tension sys. (mmHg)", 50, 300, 120)
-        with c2: 
-            t_dia = st.number_input("Tension dia. (mmHg)", 30, 200, 80)
-        with c3: 
-            glyc  = st.number_input("Glycémie (mmol/L)", 1.0, 40.0, 5.0, 0.1)
-        with c4: 
-            temp  = st.number_input("Température (°C)", 33.0, 43.0, 37.0, 0.1)
-        with c5: 
-            spo2  = st.number_input("SpO₂ (%)", 50, 100, 98)
+        with c1: t_sys = st.number_input("Tension sys. (mmHg)", 50, 300, 120)
+        with c2: t_dia = st.number_input("Tension dia. (mmHg)", 30, 200, 80)
+        with c3: glyc  = st.number_input("Glycémie (mmol/L)", 1.0, 40.0, 5.0, 0.1)
+        with c4: temp  = st.number_input("Température (°C)", 33.0, 43.0, 37.0, 0.1)
+        with c5: spo2  = st.number_input("SpO₂ (%)", 50, 100, 98)
         fc = st.number_input("Fréquence cardiaque (bpm)", 20, 250, 72)
 
         st.markdown("---")
@@ -440,7 +539,7 @@ elif page == "➕  Nouveau patient":
 
         submitted = st.form_submit_button("⚕️ Enregistrer & calculer le score de risque", use_container_width=True)
 
-    if submitted: 
+    if submitted:
         if not nom.strip():
             st.error("Le champ **Nom / ID** est obligatoire.")
         else:
@@ -723,6 +822,7 @@ elif page == "🔍  Profil patient":
 # ══════════════════════════════════════════════════════════════════════════════
 # PAGE 5 — BASE DE DONNÉES
 # ══════════════════════════════════════════════════════════════════════════════
+
 elif page == "📁  Base de données":
     render_hero("Gestion des données", "Base de", "Données",
                 "Consultation, filtrage et export des enregistrements patients")
