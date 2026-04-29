@@ -458,7 +458,7 @@ if page == "🏛️  Tableau de bord":
         if "categorie_ta" in df.columns:
             ta_c = df["categorie_ta"].value_counts().reindex(CATEGORIES_TA_ORDRE).dropna()
             fig = px.bar(ta_c, color=ta_c.index,
-                         color_discrete_sequence=EMERALD_SEQ, title="Profil tensionnel")
+                         color_discrete_sequence=TEAL_SEQ, title="Profil tensionnel")
             fig.update_layout(**PLOTLY_LAYOUT, height=280, showlegend=False, title_font_color="#e8edf2")
             st.plotly_chart(fig, use_container_width=True)
 
@@ -476,7 +476,7 @@ if page == "🏛️  Tableau de bord":
     with col_e:
         if "region" in df.columns:
             r_c = df["region"].value_counts().head(8)
-            fig = px.bar(r_c, color=r_c.index, color_discrete_sequence=GOLD_SEQ,
+            fig = px.bar(r_c, color=r_c.index, color_discrete_sequence=BLUE_SEQ,
                          title="Patients par région")
             fig.update_layout(**PLOTLY_LAYOUT, height=300, showlegend=False,
                               title_font_color="#e8edf2", xaxis_tickangle=-30)
@@ -640,7 +640,7 @@ elif page == "📊  Analyse descriptive":
                 vc = df[c].value_counts().reset_index()
                 vc.columns = [c, "count"]
                 fig = px.bar(vc, x=c, y="count", color=c,
-                             color_discrete_sequence=EMERALD_SEQ,
+                             color_discrete_sequence=TEAL_SEQ,
                              title=f"Répartition — {c.replace('_',' ').title()}")
                 fig.update_layout(**PLOTLY_LAYOUT, height=300, showlegend=False, title_font_color="#e8edf2")
                 st.plotly_chart(fig, use_container_width=True)
