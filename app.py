@@ -328,15 +328,16 @@ label { color:var(--text-muted) !important; font-size:0.83rem !important; font-w
 # ══════════════════════════════════════════════════════════════════════════════
 
 def render_hero(eyebrow: str, title: str, highlight: str, subtitle: str, badge: str = ""):
-    badge_html = f'<div class="hero-badge">{badge}</div>' if badge else ""
-    st.markdown(f"""
-    <div class="hero">
-        {badge_html}
-        <div class="hero-eyebrow">{eyebrow}</div>
-        <h1>{title} <span>{highlight}</span></h1>
-        <p>{subtitle}</p>
-    </div>
-    """, unsafe_allow_html=True)
+    badge_part = f'<div class="hero-badge">{badge}</div>' if badge else ""
+    html = (
+        '<div class="hero">'
+        + badge_part
+        + f'<div class="hero-eyebrow">{eyebrow}</div>'
+        + f'<h1>{title} <span>{highlight}</span></h1>'
+        + f'<p>{subtitle}</p>'
+        + '</div>'
+    )
+    st.markdown(html, unsafe_allow_html=True)
 
 
 def render_kpi(icon: str, value: str, label: str):
